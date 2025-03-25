@@ -1,0 +1,2 @@
+# Gitinrust
+rust course project
