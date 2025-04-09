@@ -3,6 +3,7 @@ use std::env;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
+    dbg!(args.clone());
 
     /*git command
        git init
@@ -20,7 +21,6 @@ fn main() {
 
     if args.len() < 2 {
         println!("Please provide a git command.");
-        return;
     }
 
     // Parse the command line arguments
