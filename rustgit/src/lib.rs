@@ -1,21 +1,19 @@
-pub mod rust_git {
-    pub fn git_init() {}
+pub mod cli {
+    pub mod args;
+    pub mod command;
 
-    pub fn git_add(args: Vec<&String>) {}
+    enum ArgMatches {}
+}
 
-    pub fn git_commit(args: Vec<&String>) {}
-
-    pub fn git_branch(args: Vec<&String>) {}
-
-    pub fn git_checkout(args: Vec<&String>) {}
-
-    pub fn git_merge(args: Vec<&String>) {}
-
-    pub fn git_fetch(args: Vec<&String>) {}
-
-    pub fn git_pull(args: Vec<&String>) {}
-
-    pub fn git_push(args: Vec<&String>) {}
-
-    pub fn git_status() {}
+pub mod commands {
+    pub mod init;
+    pub mod add;
+    pub mod rm;
+    pub mod commit;
+    pub mod branch;
+    pub mod checkout;
+    pub mod merge;
+    pub mod fetch;
+    pub mod pull;
+    pub mod push;
 }
