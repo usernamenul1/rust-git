@@ -15,3 +15,19 @@ pub mod commands {
     pub mod pull;
     pub mod push;
 }
+
+pub mod core{
+    pub mod blob;
+    pub mod commit;
+    pub mod object;
+    pub mod tree;
+    pub mod repository;
+    pub mod index;
+    pub mod reference;
+}
+
+pub mod utils {
+    pub mod hash;
+    pub mod fs;
+    pub mod error;
+}
