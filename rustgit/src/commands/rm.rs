@@ -1,3 +1,3 @@
-pub fn git_rm(){
+pub fn git_rm(args: Vec<String>){
 
 }

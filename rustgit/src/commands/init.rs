@@ -1,3 +1,1 @@
-pub fn git_init(){
-
-}
+pub fn git_init(args: Vec<String>) {}

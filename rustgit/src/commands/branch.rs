@@ -1,3 +1,3 @@
-pub fn git_branch(){
+pub fn git_branch(args: Vec<String>){
 
 }

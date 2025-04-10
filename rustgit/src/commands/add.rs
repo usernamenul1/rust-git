@@ -1,3 +1,3 @@
-pub fn git_add(){
+pub fn git_add(args: Vec<String>){
 
 }

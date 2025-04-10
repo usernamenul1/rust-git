@@ -1,3 +1,3 @@
-pub fn git_commit(){
+pub fn git_commit(args: Vec<String>){
 
 }

@@ -1,3 +1,3 @@
-pub fn git_pull(){
+pub fn git_pull(args: Vec<String>){
 
 }

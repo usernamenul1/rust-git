@@ -1,1 +1,1 @@
-pub fn git_merge(){}
+pub fn git_merge(args: Vec<String>){}

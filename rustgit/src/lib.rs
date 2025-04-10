@@ -1,8 +1,6 @@
 pub mod cli {
     pub mod args;
     pub mod command;
-
-    enum ArgMatches {}
 }
 
 pub mod commands {
