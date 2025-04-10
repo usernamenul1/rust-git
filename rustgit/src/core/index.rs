@@ -1,4 +1,5 @@
 use std::collections::HashSet;
+use std::io::Write;
 
 pub struct Index {
     repo_path: String,
@@ -22,7 +23,6 @@ impl Index {
                 staged_files,
             };
         }
-        panic!("Index::load is implemented by artificial intelligence");
         Index {
             repo_path: repo_path.to_string(),
             staged_files: HashSet::new(),
@@ -31,22 +31,24 @@ impl Index {
 
     pub fn stage_file(&mut self, file_path: &str) {
         // Add the file to the staged files set
-
+        self.staged_files.insert(file_path.to_string());
         // Write the staged files to the index file
-
-        panic!("not implemented yet");
+        self.persist();
     }
 
     pub fn unstage_file(&mut self, file_path: &str) {
         // Remove the file from the staged files set
-
+        self.staged_files.remove(file_path);
         // Write the staged files to the index file
-
-        panic!("not implemented yet");
+        self.persist();
     }
 
     fn persist(&self) {
         // Write the staged files to the index file
-        panic!("not implemented yet");
+        let index_file = format!("{}/.git/index", self.repo_path);
+        let mut file = std::fs::File::create(&index_file).expect("Failed to create index file");
+        for file_path in &self.staged_files {
+            writeln!(file, "{}", file_path).expect("Failed to write to index file");
+        }
     }
 }

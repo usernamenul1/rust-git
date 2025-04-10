@@ -13,18 +13,20 @@ impl CommitBuilder {
         //get current timestamp RFC 2822
         let timestamp = chrono::Utc::now().to_rfc2822();
 
-        panic!("CommitBuilder::create_commit is not implemented yet");
-        // let commit_content =
-        // format!(
-        //     "tree {}\n{}",
-        //     tree_hash,
-        //     match parent_hash {
-        //         Some(hash) => format!("parent {}\n", hash),
-        //         None => String::new(),
-        //     }
-        // );
+        // panic!("CommitBuilder::create_commit is not implemented yet");
+        let commit_content = format!(
+            "tree {}\nparent {}\nauthor {}{}\n\n{}",
+            tree_hash,
+            match parent_hash {
+                Some(hash) => format!("parent {}\n", hash),
+                None => String::new(),
+            },
+            author_info,
+            timestamp,
+            commit_messsage
+        );
 
-        // let commit_obj = Object::Commit(commit_content);
-        // commit_obj.save(repo_path);
+        let commit_obj = Object::Commit(commit_content);
+        commit_obj.save(repo_path)
     }
 }
