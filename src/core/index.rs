@@ -51,4 +51,9 @@ impl Index {
             writeln!(file, "{}", file_path).expect("Failed to write to index file");
         }
     }
+
+    pub fn get_staged_files(&self) -> String {
+        // Return the staged files as a comma-separated string
+        self.staged_files.iter().cloned().collect::<Vec<String>>().join(", ")
+    }
 }
