@@ -1,6 +1,8 @@
 use std::collections::HashSet;
 use std::io::Write;
 
+use crate::utils::fs::read_file;
+
 pub struct Index {
     repo_path: String,
     staged_files: HashSet<String>,
@@ -16,7 +18,7 @@ impl Index {
             std::fs::File::create(&index_file).expect("Failed to create index file");
         } else {
             // If it exists, load the index from the file
-            let contents = std::fs::read_to_string(&index_file).expect("Failed to read index file");
+            let contents = read_file(&index_file).expect("Failed to read index file");
             let staged_files: HashSet<String> = contents.lines().map(|s| s.to_string()).collect();
             return Index {
                 repo_path: repo_path.to_string(),
@@ -54,6 +56,10 @@ impl Index {
 
     pub fn get_staged_files(&self) -> String {
         // Return the staged files as a comma-separated string
-        self.staged_files.iter().cloned().collect::<Vec<String>>().join(", ")
+        self.staged_files
+            .iter()
+            .cloned()
+            .collect::<Vec<String>>()
+            .join(", ")
     }
 }

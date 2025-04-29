@@ -4,6 +4,12 @@ pub fn create_dir(path: &str) {
     }
 }
 
+pub fn create_file(path: &str) {
+    if !std::path::Path::new(path).exists() {
+        std::fs::File::create(path).expect("Failed to create file");
+    }
+}
+
 pub fn write_file(path: &str, data: String) {
     let mut file = std::fs::File::create(path).expect("Failed to create file");
     use std::io::Write;
