@@ -1,53 +1,162 @@
-pub fn git_parse_args() -> (&'static str, Option<Vec<String>>) {
-    // // 创建一个新的命令行应用
-    // 创建命令行应用("rust-git")
-    // .设置版本("0.1.0")
-    // .设置作者("Your Name <your.email@example.com>")
-    // .设置描述("A simple Git implementation in Rust")
-    // 。。。
-    // // 定义子命令：拉取数据
-    // .添加子命令(
-    // 创建子命令("fetch")
-    // .设置描述("Download objects and refs from another repository")
-    // .添加参数("remote_url", "Remote repository URL", 必选)
-    // )
-    // // 定义子命令：拉取并合并
-    // .添加子命令(
-    // 创建子命令("pull")
-    // .设置描述("Fetch from and integrate with another repository or a
-    // local branch")
-    // )
-    // .添加参数("remote_url", "Remote repository URL", 必选)
-    // // 定义子命令：推送更改
-    // .添加子命令(
-    // 创建子命令("push")
-    // .设置描述("Update remote refs along with associated objects")
-    // .添加参数("remote_url", "Remote repository URL", 必选)
-    // )
-    // // 解析命令行参数并返回匹配结果
-    // 解析命令行参数()
+use clap::{Parser, Subcommand};
 
-    let args: Vec<String> = std::env::args().collect();
-    if args.len() < 2 {
-        return ("", None);
-    }
-    let command = args[1].as_str();
-    let sub_args = if args.len() > 2 {
-        Some(args[2..].to_vec())
-    } else {
-        None
-    };
-    match command {
-        "init" => ("init", sub_args),
-        "add" => ("add", sub_args),
-        "rm" => ("rm", sub_args),
-        "commit" => ("commit", sub_args),
-        "branch" => ("branch", sub_args),
-        "checkout" => ("checkout", sub_args),
-        "merge" => ("merge", sub_args),
-        "fetch" => ("fetch", sub_args),
-        "pull" => ("pull", sub_args),
-        "push" => ("push", sub_args),
-        _ => ("unknown", None),
+#[derive(Parser)]
+#[command(name = "rust-git")]
+#[command(author = "Your Name <your.email@example.com>")]
+#[command(version = "0.1.0")]
+#[command(about = "A simple Git implementation in Rust", long_about = None)]
+pub struct Cli {
+    #[command(subcommand)]
+    pub command: Option<Commands>,
+}
+
+#[derive(Subcommand)]
+pub enum Commands {
+    /// Initialize a new repository
+    Init {
+        /// Path to the repository
+        #[arg(default_value = ".")]
+        path: String,
+    },
+    /// Add file contents to the index
+    Add {
+        /// Repository path
+        #[arg(default_value = ".")]
+        repo_path: String,
+        /// File to add
+        file: String,
+    },
+    /// Remove files from the working tree and the index
+    Rm {
+        /// Repository path
+        #[arg(default_value = ".")]
+        repo_path: String,
+        /// File to remove
+        file: String,
+        /// Force removal
+        #[arg(long, default_value_t = false)]
+        force: bool,
+    },
+    /// Record changes to the repository
+    Commit {
+        /// Repository path
+        #[arg(default_value = ".")]
+        repo_path: String,
+        /// Commit message
+        #[arg(short = 'm', long = "message", required = true)]
+        message: String,
+    },
+    /// List, create, or delete branches
+    Branch {
+        /// Repository path
+        #[arg(default_value = ".")]
+        repo_path: String,
+        /// Branch name
+        name: Option<String>,
+        /// Delete branch
+        #[arg(short = 'd', long = "delete")]
+        delete: bool,
+    },
+    /// Switch branches or restore working tree files
+    Checkout {
+        /// Repository path
+        #[arg(default_value = ".")]
+        repo_path: String,
+        /// Branch or commit to checkout
+        target: String,
+    },
+    /// Join two or more development histories together
+    Merge {
+        /// Repository path
+        #[arg(default_value = ".")]
+        repo_path: String,
+        /// Branch to merge
+        branch: String,
+    },
+    /// Download objects and refs from another repository
+    Fetch {
+        /// Repository path
+        #[arg(default_value = ".")]
+        repo_path: String,
+        /// Remote repository URL
+        remote: String,
+    },
+    /// Fetch from and integrate with another repository or a local branch
+    Pull {
+        /// Repository path
+        #[arg(default_value = ".")]
+        repo_path: String,
+        /// Remote repository URL
+        remote: String,
+        /// Branch to pull
+        #[arg(default_value = "main")]
+        branch: String,
+    },
+    /// Update remote refs along with associated objects
+    Push {
+        /// Repository path
+        #[arg(default_value = ".")]
+        repo_path: String,
+        /// Remote repository URL
+        remote: String,
+        /// Branch to push
+        #[arg(default_value = "main")]
+        branch: String,
+    },
+}
+
+pub fn git_parse_args() -> (&'static str, Option<Vec<String>>) {
+    let cli = Cli::parse();
+
+    match cli.command {
+        Some(Commands::Init { path }) => ("init", Some(vec![path])),
+        Some(Commands::Add { repo_path, file }) => ("add", Some(vec![repo_path, file])),
+        Some(Commands::Rm {
+            repo_path,
+            file,
+            force,
+        }) => {
+            let mut args = vec![repo_path, file];
+            if force {
+                args.insert(1, "force".to_string());
+            }
+            ("rm", Some(args))
+        }
+        Some(Commands::Commit { repo_path, message }) => ("commit", Some(vec![repo_path, message])),
+        Some(Commands::Branch {
+            repo_path,
+            name,
+            delete,
+        }) => {
+            let mut args = vec![repo_path];
+
+            // 处理 delete 标志
+            if delete {
+                args.push("--delete".to_string());
+            }
+
+            // 处理分支名称
+            if let Some(branch_name) = name {
+                args.push(branch_name);
+            }
+
+            ("branch", Some(args))
+        }
+        Some(Commands::Checkout { repo_path, target }) => {
+            ("checkout", Some(vec![repo_path, target]))
+        }
+        Some(Commands::Merge { repo_path, branch }) => ("merge", Some(vec![repo_path, branch])),
+        Some(Commands::Fetch { repo_path, remote }) => ("fetch", Some(vec![repo_path, remote])),
+        Some(Commands::Pull {
+            repo_path,
+            remote,
+            branch,
+        }) => ("pull", Some(vec![repo_path, remote, branch])),
+        Some(Commands::Push {
+            repo_path,
+            remote,
+            branch,
+        }) => ("push", Some(vec![repo_path, remote, branch])),
+        None => ("", None),
     }
 }
