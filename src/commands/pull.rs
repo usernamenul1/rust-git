@@ -1,3 +1,1 @@
-pub fn git_pull(args: Vec<String>){
-
-}
+pub fn git_pull(repo_path: &str, remote_url: &str) {}
