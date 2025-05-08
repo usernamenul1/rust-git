@@ -7,8 +7,13 @@ pub fn git_commit(
     repo_path: &str,      // 仓库根路径
     commit_message: &str, // 提交信息
 ) {
-    // 1. 初始化仓库对象
-    let repo = Repository::init(repo_path);
+    // 1. 获取仓库对象
+    let isrepo = Repository::is_git_repo(repo_path);
+    if !isrepo {
+        eprintln!("Error: Not a valid git repository at {}", repo_path);
+        return;
+    }
+    let repo = Repository::get_repo(repo_path);
     // 2. 加载当前索引
     let staging_index = Index::load(repo_path);
     // 3. 创建树对象哈希
