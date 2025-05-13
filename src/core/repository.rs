@@ -64,4 +64,10 @@ impl Repository {
         }
         false
     }
+
+    pub fn get_repo(repopath: &str) -> Self {
+        Self {
+            path: repopath.to_string(),
+        }
+    }
 }
