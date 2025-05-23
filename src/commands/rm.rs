@@ -14,5 +14,5 @@ pub fn git_rm(repo_path: &str, file_path: &str, force_mode: bool) {
     // save the index
     staging_area.unstage_file(file_path);
 
-    println!("Added file to staging area: {}", file_path);
+    println!("Removed file from staging area: {}", file_path);
 }

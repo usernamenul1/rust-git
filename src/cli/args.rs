@@ -20,21 +20,23 @@ pub enum Commands {
     },
     /// Add file contents to the index
     Add {
-        /// Repository path
-        #[arg(default_value = ".")]
-        repo_path: String,
         /// File to add
         file: String,
+        /// Repository path
+        #[arg(hide = true, default_value = ".")]
+        repo_path: String,
+        
     },
     /// Remove files from the working tree and the index
     Rm {
-        /// Repository path
-        #[arg(default_value = ".")]
-        repo_path: String,
         /// File to remove
         file: String,
+        /// Repository path
+        #[arg(hide = true, default_value = ".")]
+        repo_path: String,
+        
         /// Force removal
-        #[arg(long, default_value_t = false)]
+        #[arg(hide = true, long, default_value_t = false)]
         force: bool,
     },
     /// Record changes to the repository
@@ -110,10 +112,10 @@ pub fn git_parse_args() -> (&'static str, Option<Vec<String>>) {
 
     match cli.command {
         Some(Commands::Init { path }) => ("init", Some(vec![path])),
-        Some(Commands::Add { repo_path, file }) => ("add", Some(vec![repo_path, file])),
+        Some(Commands::Add { file,repo_path  }) => ("add", Some(vec![repo_path, file])),
         Some(Commands::Rm {
-            repo_path,
             file,
+            repo_path,
             force,
         }) => {
             let mut args = vec![repo_path, file];
