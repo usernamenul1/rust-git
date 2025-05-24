@@ -27,7 +27,7 @@ impl Repository {
             .expect("Failed to create logs/refs directory");
 
         // 创建初始文件
-        std::fs::write(format!("{}/.git/HEAD", path), "ref: refs/heads/main\n")
+        std::fs::write(format!("{}/.git/HEAD", path), "ref: refs/heads/master\n")
             .expect("Failed to create HEAD file");
         std::fs::write(format!("{}/.git/description", path), "Unnamed repository\n")
             .expect("Failed to create description file");

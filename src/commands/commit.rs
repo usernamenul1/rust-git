@@ -29,7 +29,7 @@ pub fn git_commit(
         commit_message.to_string(),
     );
     // 6. 更新当前分支的引用，指向新的提交
-    Reference::create(repo_path, "refs/heads/master", &commit_hash);
+    Reference::create(repo_path, "heads/master", &commit_hash);
     let head_path = format!("{}/.git/HEAD", repo.path);
     if let Ok(content) = std::fs::read_to_string(head_path) {
         if content.starts_with("ref: refs/heads/") {
@@ -42,5 +42,6 @@ pub fn git_commit(
                 .expect("Failed to update HEAD");
         }
     }
-    println!("Created commit: {}", commit_hash);
+    eprintln!("{}",commit_hash);
+    // println!("Created commit: {}", commit_hash);
 }

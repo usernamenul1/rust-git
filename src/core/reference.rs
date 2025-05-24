@@ -2,7 +2,9 @@ pub struct Reference;
 
 impl Reference {
     pub fn create(repo_path: &str, ref_name: &str, target_hash: &str) {
+        // println!("ref_name : {}", ref_name);
         let ref_path = format!("{}/.git/refs/{}", repo_path, ref_name);
+        // println!("Creating reference at: {}", ref_path);
         // 正确的引用文件内容只包含哈希值，不带 "ref:" 前缀
         let ref_content = format!("{}\n", target_hash);
         std::fs::write(ref_path, ref_content).expect("Failed to write reference");
