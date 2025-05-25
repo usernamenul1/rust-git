@@ -41,6 +41,7 @@ impl Reference {
     // 获取 HEAD 指向的提交哈希，无论何种状态
     pub fn resolve_head(repo_path: &str) -> Option<String> {
         let head_path = format!("{}/.git/HEAD", repo_path);
+        println!("{}",head_path);
         if let Ok(content) = std::fs::read_to_string(head_path) {
             let content = content.trim();
             if content.starts_with("ref: refs/heads/") {
@@ -50,6 +51,7 @@ impl Reference {
                 return Self::resolve(repo_path, &format!("heads/{}", branch));
             } else {
                 // 分离 HEAD 状态，直接返回提交哈希
+                println!("detached head : {}", content);
                 return Some(content.to_string());
             }
         }

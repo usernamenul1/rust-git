@@ -31,50 +31,51 @@ pub enum Commands {
     Rm {
         /// File to remove
         file: String,
-        /// Repository path
-        #[arg(hide = true, default_value = ".")]
-        repo_path: String,
-        
+               
         /// Force removal
         #[arg(hide = true, long, default_value_t = false)]
         force: bool,
+        /// Repository path
+        #[arg(hide = true, default_value = ".")]
+        repo_path: String,
     },
     /// Record changes to the repository
     Commit {
-        /// Repository path
-        #[arg(default_value = ".")]
-        repo_path: String,
+        
         /// Commit message
         #[arg(short = 'm', long = "message", required = true)]
         message: String,
-    },
-    /// List, create, or delete branches
-    Branch {
         /// Repository path
         #[arg(default_value = ".")]
         repo_path: String,
+    },
+    /// List, create, or delete branches
+    Branch {
         /// Branch name
         name: Option<String>,
         /// Delete branch
         #[arg(short = 'd', long = "delete")]
         delete: bool,
+        /// Repository path
+        #[arg(default_value = ".")]
+        repo_path: String,
     },
     /// Switch branches or restore working tree files
     Checkout {
-        /// Repository path
-        #[arg(default_value = ".")]
-        repo_path: String,
         /// Branch or commit to checkout
         #[arg(required = true)]        
         target: String,
-    },
-    /// Join two or more development histories together
-    Merge {
         /// Repository path
         #[arg(default_value = ".")]
         repo_path: String,
+    },
+    /// Join two or more development histories together
+    Merge {
         /// Branch to merge
         branch: String,
+        /// Repository path
+        #[arg(default_value = ".")]
+        repo_path: String,
     },
     /// Download objects and refs from another repository
     Fetch {
