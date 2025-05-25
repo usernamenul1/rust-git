@@ -65,6 +65,7 @@ pub enum Commands {
         #[arg(default_value = ".")]
         repo_path: String,
         /// Branch or commit to checkout
+        #[arg(required = true)]        
         target: String,
     },
     /// Join two or more development histories together
