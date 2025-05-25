@@ -46,6 +46,7 @@ impl Reference {
             if content.starts_with("ref: refs/heads/") {
                 // HEAD 指向分支，需要解析分支引用
                 let branch = content.trim_start_matches("ref: refs/heads/");
+                println!("branch : {}", branch);
                 return Self::resolve(repo_path, &format!("heads/{}", branch));
             } else {
                 // 分离 HEAD 状态，直接返回提交哈希

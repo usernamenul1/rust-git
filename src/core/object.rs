@@ -19,7 +19,7 @@ impl Object {
 
         let dir = format!("{}/.git/objects/{}", repo_path, &hash[0..2]);
         create_dir(&dir);
-        write_file(&format!("{}/{}", repo_path, &hash[2..]), raw_data);
+        write_file(&format!("{}/{}", dir, &hash[2..]), raw_data);
         hash
     }
 }
