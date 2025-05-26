@@ -16,11 +16,13 @@ pub fn git_checkout(
         panic!("Branch or commit not found: {}", target);
     }
 
+    /*
     println!("Switched to {}", if target.len() == 40 { 
         format!("commit {}", &target[..8]) 
     } else { 
         format!("branch '{}'", target) 
     });
+    */
 }
 
 //testcase

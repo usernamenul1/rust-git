@@ -41,13 +41,13 @@ impl Reference {
     // 获取 HEAD 指向的提交哈希，无论何种状态
     pub fn resolve_head(repo_path: &str) -> Option<String> {
         let head_path = format!("{}/.git/HEAD", repo_path);
-        println!("{}",head_path);
+        // println!("{}",head_path);
         if let Ok(content) = std::fs::read_to_string(head_path) {
             let content = content.trim();
             if content.starts_with("ref: refs/heads/") {
                 // HEAD 指向分支，需要解析分支引用
                 let branch = content.trim_start_matches("ref: refs/heads/");
-                println!("branch : {}", branch);
+                // println!("branch : {}", branch);
                 return Self::resolve(repo_path, &format!("heads/{}", branch));
             } else {
                 // 分离 HEAD 状态，直接返回提交哈希

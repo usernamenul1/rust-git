@@ -32,7 +32,7 @@ pub fn git_branch(
         
         // 创建新分支
         Reference::create(repo_path, &format!("heads/{}", branch_name), &head_commit);
-        println!("Created branch '{}'", branch_name);
+        // println!("Created branch '{}'", branch_name);
     }
 }
 
