@@ -25,13 +25,12 @@ pub enum Commands {
         /// Repository path
         #[arg(hide = true, default_value = ".")]
         repo_path: String,
-        
     },
     /// Remove files from the working tree and the index
     Rm {
         /// File to remove
         file: String,
-               
+
         /// Force removal
         #[arg(hide = true, long, default_value_t = false)]
         force: bool,
@@ -41,7 +40,6 @@ pub enum Commands {
     },
     /// Record changes to the repository
     Commit {
-        
         /// Commit message
         #[arg(short = 'm', long = "message", required = true)]
         message: String,
@@ -63,11 +61,15 @@ pub enum Commands {
     /// Switch branches or restore working tree files
     Checkout {
         /// Branch or commit to checkout
-        #[arg(required = true)]        
+        #[arg(required = true)]
         target: String,
         /// Repository path
         #[arg(default_value = ".")]
         repo_path: String,
+        // checkout -b
+        /// Create a new branch and switch to it
+        #[arg(short = 'b', long = "branch")]
+        new_branch: bool,
     },
     /// Join two or more development histories together
     Merge {
@@ -114,7 +116,7 @@ pub fn git_parse_args() -> (&'static str, Option<Vec<String>>) {
 
     match cli.command {
         Some(Commands::Init { path }) => ("init", Some(vec![path])),
-        Some(Commands::Add { file,repo_path  }) => ("add", Some(vec![repo_path, file])),
+        Some(Commands::Add { file, repo_path }) => ("add", Some(vec![repo_path, file])),
         Some(Commands::Rm {
             file,
             repo_path,
@@ -146,9 +148,14 @@ pub fn git_parse_args() -> (&'static str, Option<Vec<String>>) {
 
             ("branch", Some(args))
         }
-        Some(Commands::Checkout { repo_path, target }) => {
-            ("checkout", Some(vec![repo_path, target]))
-        }
+        Some(Commands::Checkout {
+            repo_path,
+            target,
+            new_branch,
+        }) => (
+            "checkout",
+            Some(vec![repo_path, target, new_branch.to_string()]),
+        ),
         Some(Commands::Merge { repo_path, branch }) => ("merge", Some(vec![repo_path, branch])),
         Some(Commands::Fetch { repo_path, remote }) => ("fetch", Some(vec![repo_path, remote])),
         Some(Commands::Pull {

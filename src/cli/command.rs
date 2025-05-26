@@ -51,7 +51,7 @@ pub fn git_execute() {
             }
         }
 
-        Some(Commands::Checkout { repo_path, target }) => git_checkout(&repo_path, &target),
+        Some(Commands::Checkout { repo_path, target, new_branch }) => git_checkout(&repo_path, &target, new_branch),
 
         Some(Commands::Merge { repo_path, branch }) => git_merge(&repo_path, &branch),
 

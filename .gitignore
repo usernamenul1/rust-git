@@ -1,3 +1,7 @@
 /rustgit
 /target
 /*.zip
+/testcases/*
+!/testcases/tests
+!/testcases/tests.sh
+/testcases/rust-git
