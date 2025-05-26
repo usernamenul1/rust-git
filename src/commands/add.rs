@@ -7,5 +7,5 @@ pub fn git_add(repo_path: &str, file_path: &str) {
     // save the index
     staging_area.stage_file(file_path);
 
-    // println!("Added file to staging area: {}", file_path);
+    // println!("Added {} to staging area", file_path);
 }
