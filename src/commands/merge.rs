@@ -14,7 +14,7 @@ pub fn git_merge(repo_path: &str, branch_name: &str) {
 
     // 如果目标分支就是当前提交,不需要合并
     if current_commit == target_commit {
-        println!("Already up to date");
+        // println!("Already up to date");
         return;
     }
 
@@ -30,8 +30,8 @@ pub fn git_merge(repo_path: &str, branch_name: &str) {
     // 创建合并提交
     git_commit(repo_path, &message);
 
-    println!("Merge made by the 'recursive' strategy.");
-    println!("Fast-forward");
+    // println!("Merge made by the 'recursive' strategy.");
+    // println!("Fast-forward");
 }
 
 #[cfg(test)]

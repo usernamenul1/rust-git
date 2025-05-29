@@ -19,7 +19,7 @@ pub fn git_branch(
         
         // 删除分支引用
         Reference::delete(repo_path, &format!("heads/{}", branch_name));
-        println!("Deleted branch '{}'", branch_name);
+        // println!("Deleted branch '{}'", branch_name);
     } else {
         // 获取当前 HEAD 指向的提交
         let head_commit = Reference::resolve_head(repo_path)
