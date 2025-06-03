@@ -3,7 +3,7 @@
 # Set the output zip file name
 ZIP_NAME="rust-git.zip"
 
-cd
+cd ..
 
 # Navigate to the parent directory of rust-git
 cd "$(dirname "$0")" || exit 1
