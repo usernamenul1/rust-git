@@ -3,6 +3,18 @@ use crate::core::{
     tree::TreeProcessor,
 };
 
+/// 执行 git commit 命令
+///
+/// 创建一个新的提交，记录当前暂存区的状态
+///
+/// # 参数
+///
+/// * `repo_path` - 仓库路径
+/// * `commit_message` - 提交消息
+///
+/// # Panics
+///
+/// 当仓库操作失败时可能会触发 panic
 pub fn git_commit(
     repo_path: &str,      // 仓库根路径
     commit_message: &str, // 提交信息
@@ -42,6 +54,6 @@ pub fn git_commit(
                 .expect("Failed to update HEAD");
         }
     }
-    eprintln!("{}",commit_hash);
+    eprintln!("{}", commit_hash);
     // println!("Created commit: {}", commit_hash);
 }

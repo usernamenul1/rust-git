@@ -1,15 +1,22 @@
 use clap::{Parser, Subcommand};
 
+/// Git 命令行解析主结构体
+///
+/// 用于解析命令行参数，定义应用的基本信息
 #[derive(Parser)]
 #[command(name = "rust-git")]
 #[command(author = "Your Name <your.email@example.com>")]
 #[command(version = "0.1.0")]
 #[command(about = "A simple Git implementation in Rust", long_about = None)]
 pub struct Cli {
+    /// 子命令枚举，表示要执行的 Git 命令
     #[command(subcommand)]
     pub command: Option<Commands>,
 }
 
+/// Git 子命令枚举
+///
+/// 定义所有支持的 Git 命令及其参数
 #[derive(Subcommand)]
 pub enum Commands {
     /// Initialize a new repository
@@ -111,6 +118,11 @@ pub enum Commands {
     },
 }
 
+/// 解析 Git 命令行参数
+///
+/// # 返回值
+///
+/// 返回一个元组，包含命令名称和可选的参数列表
 pub fn git_parse_args() -> (&'static str, Option<Vec<String>>) {
     let cli = Cli::parse();
 

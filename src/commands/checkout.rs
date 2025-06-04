@@ -1,5 +1,18 @@
 use crate::core::reference::Reference;
 
+/// 执行 git checkout 命令
+///
+/// 切换到指定的分支或提交，或者创建新分支并切换到它
+///
+/// # 参数
+///
+/// * `repo_path` - 仓库路径
+/// * `target` - 目标分支名或提交哈希值
+/// * `new_branch` - 是否创建新分支（-b 选项）
+///
+/// # Panics
+///
+/// 当分支或提交不存在，或者分支已存在但使用了 new_branch 选项时会触发 panic
 pub fn git_checkout(repo_path: &str, target: &str, new_branch: bool) {
     if new_branch {
         let branch_name = target;
