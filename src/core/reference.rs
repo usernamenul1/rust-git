@@ -103,7 +103,6 @@ impl Reference {
     /// 如果成功解析，返回 `Some(hash)`，否则返回 `None`
     pub fn resolve_head(repo_path: &str) -> Option<String> {
         let head_path = format!("{}/.git/HEAD", repo_path);
-        // println!("{}",head_path);
         if let Ok(content) = std::fs::read_to_string(head_path) {
             let content = content.trim();
             if content.starts_with("ref: refs/heads/") {

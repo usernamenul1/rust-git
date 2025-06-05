@@ -19,100 +19,100 @@ pub struct Cli {
 /// 定义所有支持的 Git 命令及其参数
 #[derive(Subcommand)]
 pub enum Commands {
-    /// Initialize a new repository
+    /// 初始化一个新的仓库
     Init {
-        /// Path to the repository
+        /// 仓库路径，默认为当前仓库
         #[arg(default_value = ".")]
         path: String,
     },
-    /// Add file contents to the index
+    /// 向仓库中添加文件
     Add {
-        /// File to add
+        /// 待添加的文件
         file: String,
-        /// Repository path
+        /// 仓库路径
         #[arg(hide = true, default_value = ".")]
         repo_path: String,
     },
-    /// Remove files from the working tree and the index
+    /// 从仓库中移除文件
     Rm {
-        /// File to remove
+        /// 待移除的文件
         file: String,
 
-        /// Force removal
+        /// 强制移除，非必选，默认为false
         #[arg(hide = true, long, default_value_t = false)]
         force: bool,
-        /// Repository path
+        /// 仓库路径
         #[arg(hide = true, default_value = ".")]
         repo_path: String,
     },
-    /// Record changes to the repository
+    /// commit，提交更改
     Commit {
-        /// Commit message
+        /// [-m|--message 提交更改信息] 必选
         #[arg(short = 'm', long = "message", required = true)]
         message: String,
-        /// Repository path
+        /// 仓库路径
         #[arg(default_value = ".")]
         repo_path: String,
     },
-    /// List, create, or delete branches
+    /// 列出/创建/删除分支
     Branch {
-        /// Branch name
+        /// 分支名
         name: Option<String>,
-        /// Delete branch
+        /// [-d|--delete] 删除分支
         #[arg(short = 'd', long = "delete")]
         delete: bool,
-        /// Repository path
+        /// 仓库路径
         #[arg(default_value = ".")]
         repo_path: String,
     },
-    /// Switch branches or restore working tree files
+    /// 切换分支
     Checkout {
-        /// Branch or commit to checkout
+        /// 待切换的分支名或commit
         #[arg(required = true)]
         target: String,
-        /// Repository path
+        /// 仓库路径
         #[arg(default_value = ".")]
         repo_path: String,
         // checkout -b
-        /// Create a new branch and switch to it
+        /// [-b|--branch] 创建新的分支并切换到它
         #[arg(short = 'b', long = "branch")]
         new_branch: bool,
     },
-    /// Join two or more development histories together
+    /// 合并两个分支
     Merge {
-        /// Branch to merge
+        /// 待合并的分支
         branch: String,
-        /// Repository path
+        /// 仓库路径
         #[arg(default_value = ".")]
         repo_path: String,
     },
-    /// Download objects and refs from another repository
+    /// 从另一个仓库下载对象和引用
     Fetch {
-        /// Repository path
+        /// 仓库路径
         #[arg(default_value = ".")]
         repo_path: String,
-        /// Remote repository URL
+        /// 远程仓库地址
         remote: String,
     },
-    /// Fetch from and integrate with another repository or a local branch
+    /// 把远程仓库拉取到本地仓库
     Pull {
-        /// Repository path
+        /// 仓库路径
         #[arg(default_value = ".")]
         repo_path: String,
-        /// Remote repository URL
+        /// 远程仓库URL
         remote: String,
-        /// Branch to pull
+        /// 待拉取的分支，默认为main
         #[arg(default_value = "main")]
         branch: String,
     },
-    /// Update remote refs along with associated objects
+    /// 把本地仓库推送到远程仓库
     Push {
-        /// Repository path
+        /// 本地仓库路径
         #[arg(default_value = ".")]
         repo_path: String,
-        /// Remote repository URL
+        /// 远程仓库URL
         remote: String,
-        /// Branch to push
+        /// 待推送的分支，默认为main
         #[arg(default_value = "main")]
         branch: String,
     },
