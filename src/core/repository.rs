@@ -1,10 +1,29 @@
 use std::fs::create_dir;
 
+/// Git 仓库结构体
+///
+/// 表示一个 Git 仓库实例及其基本信息
 pub struct Repository {
+    /// 仓库所在的文件系统路径
     pub path: String,
 }
 
 impl Repository {
+    /// 初始化一个新的 Git 仓库
+    ///
+    /// 在指定路径创建 Git 仓库所需的所有目录和初始文件
+    ///
+    /// # 参数
+    ///
+    /// * `path` - 要初始化仓库的路径
+    ///
+    /// # 返回值
+    ///
+    /// 返回已初始化的 Repository 实例
+    ///
+    /// # Panics
+    ///
+    /// 当目录或文件创建失败时会触发 panic
     pub fn init(path: &str) -> Self {
         // 创建基本目录
         create_dir(format!("{}/.git", path)).expect("Failed to create .git directory");
@@ -27,7 +46,7 @@ impl Repository {
             .expect("Failed to create logs/refs directory");
 
         // 创建初始文件
-        std::fs::write(format!("{}/.git/HEAD", path), "ref: refs/heads/main\n")
+        std::fs::write(format!("{}/.git/HEAD", path), "ref: refs/heads/master\n")
             .expect("Failed to create HEAD file");
         std::fs::write(format!("{}/.git/description", path), "Unnamed repository\n")
             .expect("Failed to create description file");
@@ -47,6 +66,17 @@ impl Repository {
         }
     }
 
+    /// 检查指定路径是否为有效的 Git 仓库
+    ///
+    /// 通过验证目录结构判断是否存在 Git 仓库
+    ///
+    /// # 参数
+    ///
+    /// * `path` - 要检查的路径
+    ///
+    /// # 返回值
+    ///
+    /// 如果是 Git 仓库则返回 `true`，否则返回 `false`
     pub fn is_git_repo(path: &str) -> bool {
         // Check if the .git directory exists
         let git_dir = format!("{}/.git", path);
@@ -65,6 +95,15 @@ impl Repository {
         false
     }
 
+    /// 获取已存在仓库的实例
+    ///
+    /// # 参数
+    ///
+    /// * `repopath` - 已存在仓库的路径
+    ///
+    /// # 返回值
+    ///
+    /// 返回表示指定仓库的 Repository 实例
     pub fn get_repo(repopath: &str) -> Self {
         Self {
             path: repopath.to_string(),

@@ -3,6 +3,18 @@ use crate::core::{
     tree::TreeProcessor,
 };
 
+/// 执行 git commit 命令
+///
+/// 创建一个新的提交，记录当前暂存区的状态
+///
+/// # 参数
+///
+/// * `repo_path` - 仓库路径
+/// * `commit_message` - 提交消息
+///
+/// # Panics
+///
+/// 当仓库操作失败时可能会触发 panic
 pub fn git_commit(
     repo_path: &str,      // 仓库根路径
     commit_message: &str, // 提交信息
@@ -10,7 +22,7 @@ pub fn git_commit(
     // 1. 获取仓库对象
     let isrepo = Repository::is_git_repo(repo_path);
     if !isrepo {
-        eprintln!("Error: Not a valid git repository at {}", repo_path);
+        // eprintln!("Error: Not a valid git repository at {}", repo_path);
         return;
     }
     let repo = Repository::get_repo(repo_path);
@@ -29,7 +41,7 @@ pub fn git_commit(
         commit_message.to_string(),
     );
     // 6. 更新当前分支的引用，指向新的提交
-    Reference::create(repo_path, "refs/heads/master", &commit_hash);
+    Reference::create(repo_path, "heads/master", &commit_hash);
     let head_path = format!("{}/.git/HEAD", repo.path);
     if let Ok(content) = std::fs::read_to_string(head_path) {
         if content.starts_with("ref: refs/heads/") {
@@ -42,5 +54,6 @@ pub fn git_commit(
                 .expect("Failed to update HEAD");
         }
     }
-    println!("Created commit: {}", commit_hash);
+    eprintln!("{}", commit_hash);
+    // println!("Created commit: {}", commit_hash);
 }

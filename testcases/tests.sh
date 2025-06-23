@@ -1,4 +1,4 @@
-cp ../target/debug/rust-git .
+cp ../target/release/rust-git .
 
 # 执行 ./test/下的所有测试
 for test_file in ./tests/test*.sh; do

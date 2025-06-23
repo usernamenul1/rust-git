@@ -13,6 +13,13 @@ use crate::cli::args::Cli;
 use crate::cli::args::Commands;
 use clap::Parser;
 
+/// 执行 Git 命令
+///
+/// 解析命令行参数并调用相应的 Git 命令实现函数
+///
+/// # Panics
+///
+/// 当命令执行失败时，可能会触发特定命令实现中的 panic
 pub fn git_execute() {
     let cli = Cli::parse();
 
@@ -51,7 +58,7 @@ pub fn git_execute() {
             }
         }
 
-        Some(Commands::Checkout { repo_path, target }) => git_checkout(&repo_path, &target),
+        Some(Commands::Checkout { repo_path, target, new_branch }) => git_checkout(&repo_path, &target, new_branch),
 
         Some(Commands::Merge { repo_path, branch }) => git_merge(&repo_path, &branch),
 

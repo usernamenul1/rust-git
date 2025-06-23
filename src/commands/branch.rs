@@ -1,4 +1,18 @@
 use crate::core::reference::Reference;
+
+/// 执行 git branch 命令
+///
+/// 创建或删除分支
+///
+/// # 参数
+///
+/// * `repo_path` - 仓库路径
+/// * `branch_name` - 要操作的分支名称
+/// * `delete` - 是否删除分支（为 true 时删除，为 false 时创建）
+///
+/// # Panics
+///
+/// 当尝试删除当前分支，创建已存在的分支，或删除不存在的分支时会触发 panic
 pub fn git_branch(
     repo_path: &str,
     branch_name: &str, 
@@ -19,7 +33,7 @@ pub fn git_branch(
         
         // 删除分支引用
         Reference::delete(repo_path, &format!("heads/{}", branch_name));
-        println!("Deleted branch '{}'", branch_name);
+        // println!("Deleted branch '{}'", branch_name);
     } else {
         // 获取当前 HEAD 指向的提交
         let head_commit = Reference::resolve_head(repo_path)
@@ -32,11 +46,9 @@ pub fn git_branch(
         
         // 创建新分支
         Reference::create(repo_path, &format!("heads/{}", branch_name), &head_commit);
-        println!("Created branch '{}'", branch_name);
+        // println!("Created branch '{}'", branch_name);
     }
 }
-
-// ...existing code...
 
 #[cfg(test)]
 mod tests {
